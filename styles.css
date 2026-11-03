@@ -6,3 +6,29 @@
 
 @media(max-width:700px){.topbar{height:64px;padding:0 20px}.hero{margin:82px auto 75px}.hero h1{letter-spacing:-1.8px}.hero-copy{font-size:13px}.search{height:57px;padding-left:14px;gap:9px}.search button{height:39px;padding:0 11px}.search button span{display:none}.search kbd{display:none}.content-section,.results-section,.article-view,.about-view{width:calc(100% - 36px)}.category-grid{grid-template-columns:repeat(2,1fr);gap:9px}.category-card{min-height:126px;padding:15px}.category-description{font-size:10px;line-height:1.4}.section-heading h2{font-size:21px}.result-layout{grid-template-columns:1fr;gap:18px}.ai-sources{grid-template-columns:1fr}.ai-overview{padding:16px}.filters{border:0;border-bottom:1px solid var(--line);padding:0 0 12px;display:flex;gap:5px;overflow-x:auto}.filter-title{display:none}.filter-option{white-space:nowrap;width:auto;padding:8px 10px}.filter-option.active{box-shadow:inset 0 -2px var(--accent)}footer{flex-direction:column;align-items:center;text-align:center;padding:18px}.results-section{margin-top:40px}.article-view,.about-view{margin-top:35px}}
 @media(min-width:701px) and (max-width:900px){.category-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* Search overview: short answer first, expandable detail, then original references. */
+.knowledge-overview{padding:21px;border:1px solid #4a3b2e;border-radius:11px;background:linear-gradient(145deg,rgba(232,138,58,.075),var(--panel) 48%);margin-bottom:20px}
+.overview-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:15px}
+.overview-kicker,.overview-subtitle{font:10px 'DM Mono',monospace;letter-spacing:1.15px;color:var(--accent)}
+.overview-badge{font:9px 'DM Mono',monospace;color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:5px 7px}
+.overview-answer{font-size:14px;line-height:1.85;color:var(--text);margin:0 0 18px}
+.overview-subtitle{margin:18px 0 10px;color:#9299a2}
+.overview-points{padding-left:20px;margin:0;color:var(--text);font-size:12px;line-height:1.8}
+.overview-points li{padding:2px 0 2px 3px}
+.overview-details{margin-top:18px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:13px 0}
+.overview-details summary{cursor:pointer;list-style:none;color:#e9a36a;font-size:12px;font-weight:600}
+.overview-details summary::-webkit-details-marker{display:none}
+.overview-details summary:after{content:'＋';float:right;color:var(--accent)}
+.overview-details[open] summary:after{content:'−'}
+.overview-detail-body{padding-top:10px}
+.overview-source-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.overview-source{display:flex;flex-direction:column;gap:5px;min-width:0;padding:11px 12px;border:1px solid var(--line);border-radius:7px;text-decoration:none;color:var(--text);background:rgba(255,255,255,.015)}
+.overview-source:hover{border-color:#76563d}
+.overview-source span{font-size:11px;line-height:1.45;overflow-wrap:anywhere}
+.overview-source small{font:9px 'DM Mono',monospace;color:var(--muted);overflow-wrap:anywhere}
+.overview-note,.external-intro{font-size:10px;line-height:1.65;color:var(--muted);margin:14px 0 0}
+.external-search-section{margin:20px 0 25px;padding:17px 19px;border:1px solid var(--line);border-radius:9px;background:var(--panel)}
+.external-search-section .overview-source-list{margin-top:12px}
+.light .knowledge-overview{background:linear-gradient(145deg,rgba(185,103,37,.08),#fff 55%)}
+@media(max-width:700px){.knowledge-overview{padding:16px}.overview-source-list{grid-template-columns:1fr}.external-search-section{padding:15px}}
