@@ -1,0 +1,17 @@
+{
+  "name": "FRC Knowledge",
+  "short_name": "FRC Knowledge",
+  "description": "A searchable knowledge hub for FIRST Robotics Competition.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#111214",
+  "theme_color": "#111214",
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

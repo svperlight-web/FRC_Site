@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111214">
+  <meta name="description" content="A searchable knowledge hub for FIRST Robotics Competition.">
+  <title>FRC Knowledge</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="FRC Knowledge home" id="homeLink">
+      <span class="brand-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5 12 3l8 4.5v9L12 21l-8-4.5z"/><path d="m8 9.5 4-2.2 4 2.2v5l-4 2.2-4-2.2z"/><path d="M12 7.3v9.4"/></svg></span>
+      <span>FRC <b>Knowledge</b></span>
+    </a>
+    <nav class="top-actions">
+      <button class="text-button" id="aboutButton" type="button">About</button>
+      <button class="icon-button" id="themeButton" type="button" aria-label="Toggle color theme" title="Toggle theme">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 15.5A8.5 8.5 0 0 1 8.5 3.5a8.5 8.5 0 1 0 12 12Z"/></svg>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="homeView">
+      <div class="eyebrow"><span class="eyebrow-line"></span> THE ENGINEERING KNOWLEDGE HUB</div>
+      <h1>FRC <span>Knowledge</span></h1>
+      <p class="hero-copy">Find the information you need to build, program, and compete.</p>
+      <form class="search" id="searchForm" role="search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg>
+        <input id="searchInput" type="search" placeholder="Search anything FRC..." autocomplete="off" aria-label="Search FRC information">
+        <kbd>/</kbd>
+        <button type="submit" aria-label="Search"><span>Search</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
+      </form>
+      <div class="search-hint">Try <button class="suggestion" data-query="swerve drive">swerve drive</button>, <button class="suggestion" data-query="CAN bus">CAN bus</button>, or <button class="suggestion" data-query="PID">PID</button></div>
+    </section>
+
+    <section class="content-section" id="exploreSection">
+      <div class="section-heading">
+        <div><div class="eyebrow small">BROWSE THE LIBRARY</div><h2>Explore topics</h2></div>
+        <span class="section-meta">START HERE <span class="meta-dot"></span></span>
+      </div>
+      <div class="category-grid" id="categoryGrid">
+        <button class="category-card" data-category="Mechanical"><span class="category-icon"><svg viewBox="0 0 24 24"><path d="M12 8.2a3.8 3.8 0 1 0 0 7.6 3.8 3.8 0 0 0 0-7.6Z"/><path d="m19.4 13.5 1.1.9-1.7 3-1.3-.5a7.8 7.8 0 0 1-1.5.9l-.2 1.4h-3.5l-.3-1.4a7.8 7.8 0 0 1-1.5-.9l-1.3.5-1.7-3 1.1-.9a7.2 7.2 0 0 1 0-1.8l-1.1-.9 1.7-3 1.3.5a7.8 7.8 0 0 1 1.5-.9l.3-1.4h3.5l.2 1.4a7.8 7.8 0 0 1 1.5.9l1.3-.5 1.7 3-1.1.9a7.2 7.2 0 0 1 0 1.8Z"/></svg></span><span class="category-name">Mechanical</span><span class="category-description">Drivetrains, mechanisms & design</span><span class="card-arrow">↗</span></button>
+        <button class="category-card" data-category="Electrical"><span class="category-icon"><svg viewBox="0 0 24 24"><path d="m13.2 2.8-8 11h6l-.4 7.4 8-11h-6z"/></svg></span><span class="category-name">Electrical</span><span class="category-description">Wiring, power & electronics</span><span class="card-arrow">↗</span></button>
+        <button class="category-card" data-category="Programming"><span class="category-icon"><svg viewBox="0 0 24 24"><path d="m8.5 7-5 5 5 5m7-10 5 5-5 5m-2.5-13-2 16"/></svg></span><span class="category-name">Programming</span><span class="category-description">WPILib, code & control systems</span><span class="card-arrow">↗</span></button>
+        <button class="category-card" data-category="Documentation"><span class="category-icon"><svg viewBox="0 0 24 24"><path d="M6 3.5h8l4 4v13H6z"/><path d="M14 3.5v4h4M9 12h6m-6 3.5h6"/></svg></span><span class="category-name">Documentation</span><span class="category-description">Guides, manuals & references</span><span class="card-arrow">↗</span></button>
+        <button class="category-card" data-category="Competition"><span class="category-icon"><svg viewBox="0 0 24 24"><path d="M8 4h8v4a4 4 0 0 1-8 0zM12 12v5m-4 3h8m-4-3-4 3m4-3 4 3M8 6H4v2a4 4 0 0 0 4 4m8-6h4v2a4 4 0 0 1-4 4"/></svg></span><span class="category-name">Competition</span><span class="category-description">Rules, seasons & events</span><span class="card-arrow">↗</span></button>
+        <button class="category-card" data-category="Hardware"><span class="category-icon"><svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 2v3m6-3v3M9 19v3m6-3v3M2 9h3m-3 6h3m14-6h3m-3 6h3M9 9h6v6H9z"/></svg></span><span class="category-name">Hardware</span><span class="category-description">Motors, controllers & sensors</span><span class="card-arrow">↗</span></button>
+      </div>
+    </section>
+
+    <section class="results-section hidden" id="resultsView">
+      <div class="results-top"><button class="back-button" id="backButton">← Home</button><span class="section-meta" id="resultCount"></span></div>
+      <h2 id="resultsTitle">Search results</h2>
+      <div class="result-layout">
+        <aside class="filters"><div class="filter-title">FILTER BY</div><button class="filter-option active" data-filter="All">All topics</button><button class="filter-option" data-filter="Mechanical">Mechanical</button><button class="filter-option" data-filter="Electrical">Electrical</button><button class="filter-option" data-filter="Programming">Programming</button><button class="filter-option" data-filter="Documentation">Documentation</button><button class="filter-option" data-filter="Competition">Competition</button><button class="filter-option" data-filter="Hardware">Hardware</button></aside>
+        <div class="results-list" id="resultsList"></div>
+      </div>
+    </section>
+
+    <section class="article-view hidden" id="articleView">
+      <button class="back-button" id="articleBack">← Back to results</button>
+      <div id="articleContent"></div>
+    </section>
+
+    <section class="about-view hidden" id="aboutView">
+      <button class="back-button" id="aboutBack">← Home</button>
+      <div class="eyebrow small">ABOUT THE PROJECT</div><h2>FRC knowledge, in one place.</h2>
+      <p>FRC Knowledge is a searchable hub for FIRST Robotics Competition information. The goal is to make reliable technical information easier to discover, understand, and share.</p>
+      <div class="notice"><b>Early prototype</b><br>This first version contains a small demonstration library. External search, live FIRST data, user accounts, and article contributions will be added in later stages.</div>
+    </section>
+  </main>
+
+  <footer><span>FRC KNOWLEDGE <span class="footer-sep">/</span> COMMUNITY KNOWLEDGE PROJECT</span><span>Independent project · Not affiliated with FIRST</span></footer>
+  <script src="app.js"></script>
+</body>
+</html>
