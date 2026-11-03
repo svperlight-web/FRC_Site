@@ -14,13 +14,63 @@ let currentQuery="", currentFilter="All", previousView="results";
 
 function show(view){[homeView,exploreSection,resultsView,articleView,aboutView].forEach(el=>el.classList.add("hidden")); if(view==="home"){homeView.classList.remove("hidden");exploreSection.classList.remove("hidden");} if(view==="results")resultsView.classList.remove("hidden");if(view==="article")articleView.classList.remove("hidden");if(view==="about")aboutView.classList.remove("hidden");}
 function scoreArticle(a,q){const terms=q.toLowerCase().trim().split(/\s+/).filter(Boolean);const title=a.title.toLowerCase(),summary=a.summary.toLowerCase(),tags=a.tags.join(" ").toLowerCase(),body=a.body.replace(/<[^>]*>/g," ").toLowerCase();return terms.reduce((s,t)=>s+(title.includes(t)?5:0)+(tags.includes(t)?4:0)+(summary.includes(t)?2:0)+(body.includes(t)?1:0),0);}
-function renderResults(){const q=currentQuery.trim();let matches=articles.map(a=>({...a,score:scoreArticle(a,q)})).filter(a=>a.score>0&&(currentFilter==="All"||a.category===currentFilter)).sort((a,b)=>b.score-a.score);document.getElementById("resultsTitle").textContent=q?`Results for “${q}”`:`${currentFilter} articles`;document.getElementById("resultCount").textContent=`${matches.length} ${matches.length===1?"RESULT":"RESULTS"}`;resultsList.innerHTML="";if(!matches.length){resultsList.innerHTML='<div class="empty-state">No matching articles in this starter library.<br>Try another search or choose a different category.<br><br><span style="color:#e88a3a">External FRC search is planned for a later version.</span></div>';return;}matches.forEach(a=>{const card=document.createElement("article");card.className="result-card";card.tabIndex=0;card.innerHTML=`<h3>${a.title}</h3><p>${a.summary}</p><div class="result-meta"><span class="tag">${a.category}</span><span>${a.updated}</span></div>`;card.addEventListener("click",()=>openArticle(a));card.addEventListener("keydown",e=>{if(e.key==="Enter")openArticle(a)});resultsList.appendChild(card);});}
-function search(q){currentQuery=q;currentFilter="All";document.querySelectorAll(".filter-option").forEach(b=>b.classList.toggle("active",b.dataset.filter==="All"));show("results");renderResults();window.scrollTo({top:0,behavior:"smooth"});}
+function renderLocalResults(){
+  const q=currentQuery.trim();
+  let matches=articles.map(a=>({...a,score:scoreArticle(a,q)})).filter(a=>(!q||a.score>0)&&(currentFilter==="All"||a.category===currentFilter)).sort((a,b)=>b.score-a.score);
+  if(currentFilter!=="All" || !q){
+    if(!matches.length){const empty=document.createElement("div");empty.className="empty-state";empty.textContent="No matching entries in the FRC Knowledge starter library.";resultsList.appendChild(empty);return;}
+  }
+  if(q && matches.length){
+    const label=document.createElement("div");label.className="local-results-label";label.textContent="RELATED FRC KNOWLEDGE ENTRIES";resultsList.appendChild(label);
+  }
+  matches.forEach(a=>{const card=document.createElement("article");card.className="result-card";card.tabIndex=0;const h=document.createElement("h3");h.textContent=a.title;const p=document.createElement("p");p.textContent=a.summary;const meta=document.createElement("div");meta.className="result-meta";const tag=document.createElement("span");tag.className="tag";tag.textContent=a.category;const updated=document.createElement("span");updated.textContent=a.updated;meta.append(tag,updated);card.append(h,p,meta);card.addEventListener("click",()=>openArticle(a));card.addEventListener("keydown",e=>{if(e.key==="Enter")openArticle(a)});resultsList.appendChild(card);});
+}
+function addExternalSearches(q){
+  const section=document.createElement("section");section.className="ai-overview";
+  const top=document.createElement("div");top.className="ai-overview-top";
+  const title=document.createElement("div");title.className="ai-overview-title";title.textContent="SEARCH THE WEB";
+  const badge=document.createElement("span");badge.className="ai-badge";badge.textContent="FREE EXTERNAL SEARCH";top.append(title,badge);
+  const intro=document.createElement("p");intro.className="ai-answer";intro.textContent="Choose a source to search for this topic. FRC documentation is listed first; broader robotics and engineering sources follow.";
+  section.append(top,intro);
+  const list=document.createElement("div");list.className="ai-sources";
+  const query=q.trim();
+  const targets=[
+    ["FIRST — Official FRC resources","firstinspires.org",`site:firstinspires.org/resource-library/frc ${query}`],
+    ["WPILib Documentation","docs.wpilib.org",`site:docs.wpilib.org ${query}`],
+    ["REV Robotics Documentation","docs.revrobotics.com",`site:docs.revrobotics.com ${query}`],
+    ["CTRE / Phoenix Documentation","v6.docs.ctr-electronics.com",`site:v6.docs.ctr-electronics.com ${query}`],
+    ["Chief Delphi Community","chiefdelphi.com",`site:chiefdelphi.com ${query}`],
+    ["FRC projects on GitHub","github.com",`site:github.com ${query} FRC robotics`],
+    ["Broader robotics & engineering","Google Search",`robotics engineering ${query}`],
+    ["Search with Bing","Bing Search",`robotics engineering ${query}`]
+  ];
+  targets.forEach(([label,domain,term],index)=>{
+    const a=document.createElement("a");a.className="ai-source";
+    const base=domain==="Bing Search"?"https://www.bing.com/search?q=":"https://www.google.com/search?q=";
+    a.href=base+encodeURIComponent(term);a.target="_blank";a.rel="noopener noreferrer";
+    const name=document.createElement("span");name.textContent=label;
+    const small=document.createElement("small");small.textContent=domain;
+    a.append(name,small);list.appendChild(a);
+  });
+  section.append(list);resultsList.appendChild(section);
+}
+function renderLocalResults(){
+  const q=currentQuery.trim();
+  let matches=articles.map(a=>({...a,score:scoreArticle(a,q)})).filter(a=>(!q||a.score>0)&&(currentFilter==="All"||a.category===currentFilter)).sort((a,b)=>b.score-a.score);
+  if(q){const label=document.createElement("div");label.className="local-results-label";label.textContent="MATCHING FRC KNOWLEDGE ARTICLES";resultsList.appendChild(label);}
+  if(!matches.length){const empty=document.createElement("div");empty.className="empty-state";empty.textContent=q?"No matching articles in the local library yet. Try one of the external source searches above.":"No entries in this category yet.";resultsList.appendChild(empty);return;}
+  matches.forEach(a=>{const card=document.createElement("article");card.className="result-card";card.tabIndex=0;const h=document.createElement("h3");h.textContent=a.title;const p=document.createElement("p");p.textContent=a.summary;const meta=document.createElement("div");meta.className="result-meta";const tag=document.createElement("span");tag.className="tag";tag.textContent=a.category;const updated=document.createElement("span");updated.textContent=a.updated;meta.append(tag,updated);card.append(h,p,meta);card.addEventListener("click",()=>openArticle(a));card.addEventListener("keydown",e=>{if(e.key==="Enter")openArticle(a)});resultsList.appendChild(card);});
+}
+function search(q){
+  currentQuery=q;currentFilter="All";document.querySelectorAll(".filter-option").forEach(b=>b.classList.toggle("active",b.dataset.filter==="All"));
+  show("results");document.getElementById("resultsTitle").textContent=`Results for “${q}”`;document.getElementById("resultCount").textContent="FREE SEARCH";resultsList.innerHTML="";
+  addExternalSearches(q);renderLocalResults();window.scrollTo({top:0,behavior:"smooth"});
+}
 function openArticle(a){previousView="results";document.getElementById("articleContent").innerHTML=`<div class="article-header"><span class="tag">${a.category}</span><h1>${a.title}</h1><div class="article-summary">${a.summary}</div><div class="article-meta">FRC KNOWLEDGE / ${a.updated.toUpperCase()}</div></div><div class="article-body">${a.body}<div class="source-box"><b>About this entry</b><br>This is an introductory entry in the FRC Knowledge prototype. Verify hardware setup, software behavior, and competition interpretations against current manufacturer and FIRST documentation.</div></div>`;show("article");window.scrollTo({top:0,behavior:"smooth"});}
 document.getElementById("searchForm").addEventListener("submit",e=>{e.preventDefault();if(searchInput.value.trim())search(searchInput.value);});
 document.querySelectorAll(".suggestion").forEach(b=>b.addEventListener("click",()=>{searchInput.value=b.dataset.query;search(b.dataset.query)}));
-document.querySelectorAll(".category-card").forEach(b=>b.addEventListener("click",()=>{currentQuery="";currentFilter=b.dataset.category;document.querySelectorAll(".filter-option").forEach(x=>x.classList.toggle("active",x.dataset.filter===currentFilter));show("results");renderResults();}));
-document.querySelectorAll(".filter-option").forEach(b=>b.addEventListener("click",()=>{currentFilter=b.dataset.filter;document.querySelectorAll(".filter-option").forEach(x=>x.classList.toggle("active",x===b));renderResults();}));
+document.querySelectorAll(".category-card").forEach(b=>b.addEventListener("click",()=>{currentQuery="";currentFilter=b.dataset.category;document.querySelectorAll(".filter-option").forEach(x=>x.classList.toggle("active",x.dataset.filter===currentFilter));show("results");resultsList.innerHTML="";renderLocalResults();}));
+document.querySelectorAll(".filter-option").forEach(b=>b.addEventListener("click",()=>{currentFilter=b.dataset.filter;document.querySelectorAll(".filter-option").forEach(x=>x.classList.toggle("active",x===b));resultsList.innerHTML="";renderLocalResults();}));
 document.getElementById("backButton").addEventListener("click",()=>show("home"));
 document.getElementById("articleBack").addEventListener("click",()=>{show("results");});
 document.getElementById("aboutButton").addEventListener("click",()=>show("about"));

@@ -28,10 +28,10 @@
     <section class="hero" id="homeView">
       <div class="eyebrow"><span class="eyebrow-line"></span> THE ENGINEERING KNOWLEDGE HUB</div>
       <h1>FRC <span>Knowledge</span></h1>
-      <p class="hero-copy">Find the information you need to build, program, and compete.</p>
+      <p class="hero-copy">Search FRC first, then explore the wider world of robotics and engineering.</p>
       <form class="search" id="searchForm" role="search">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg>
-        <input id="searchInput" type="search" placeholder="Search anything FRC..." autocomplete="off" aria-label="Search FRC information">
+        <input id="searchInput" type="search" placeholder="Search FRC, robotics, or engineering..." autocomplete="off" aria-label="Search FRC information">
         <kbd>/</kbd>
         <button type="submit" aria-label="Search"><span>Search</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
       </form>
@@ -58,7 +58,7 @@
       <h2 id="resultsTitle">Search results</h2>
       <div class="result-layout">
         <aside class="filters"><div class="filter-title">FILTER BY</div><button class="filter-option active" data-filter="All">All topics</button><button class="filter-option" data-filter="Mechanical">Mechanical</button><button class="filter-option" data-filter="Electrical">Electrical</button><button class="filter-option" data-filter="Programming">Programming</button><button class="filter-option" data-filter="Documentation">Documentation</button><button class="filter-option" data-filter="Competition">Competition</button><button class="filter-option" data-filter="Hardware">Hardware</button></aside>
-        <div class="results-list" id="resultsList"></div>
+        <div class="results-list" id="resultsList"><div class="search-loading hidden" id="searchLoading">Searching trusted FRC and robotics sources…</div></div>
       </div>
     </section>
 
@@ -71,7 +71,7 @@
       <button class="back-button" id="aboutBack">← Home</button>
       <div class="eyebrow small">ABOUT THE PROJECT</div><h2>FRC knowledge, in one place.</h2>
       <p>FRC Knowledge is a searchable hub for FIRST Robotics Competition information. The goal is to make reliable technical information easier to discover, understand, and share.</p>
-      <div class="notice"><b>Early prototype</b><br>This first version contains a small demonstration library. External search, live FIRST data, user accounts, and article contributions will be added in later stages.</div>
+      <div class="notice"><b>Early prototype</b><br>This free version searches its built-in knowledge library and creates targeted external searches for trusted FRC and robotics sources. External search links open on the selected website. There are no paid APIs, API keys, subscriptions, or required accounts. Always verify current competition rules against official FIRST documents.</div>
     </section>
   </main>
 
